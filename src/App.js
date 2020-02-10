@@ -1,25 +1,32 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { useState } from 'react';
+import { ApolloProvider } from 'react-apollo'
+
+import { client } from './servieces/ApolloClient'
+
+import List from './container/List'
+import Character from './container/Character'
+
 import './App.css';
 
+function Router(props) {
+  switch(props.route) {
+    case 'list':
+      return <List {...props}/>
+    case 'character':
+      return <Character {...props} goBack={() => props.setRoute("list")}/>
+    default:
+      return <List {...props} />
+  
+    }
+}
+
 function App() {
+  const [route, setRoute] = useState('list')
+  const [characterId, setCharacterId] = useState('')
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ApolloProvider client={client}>
+    {Router({route, characterId, setRoute, setCharacterId})}
+    </ApolloProvider>
   );
 }
 
