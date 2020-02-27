@@ -42,3 +42,27 @@ export const GET_CHARACTER_BY_ID = gql`
       }
 `
 
+export const GET_SORTABLE_HUMANS = gql` 
+query sortableHumans($personSort: PersonOrderBy!) {
+  Species(name: "Human") {
+      id
+      people(orderBy: $personSort) {
+        id
+        name
+    }
+  }
+}
+`
+
+export const GET_FILTERED_DROIDS = gql`
+query filtrableDroids($droidFilter: PersonFilter) {
+  Species(name: "Droid") {
+      id
+      people(filter: $droidFilter) {
+        id
+        name
+      }
+    }
+  }
+`
+
